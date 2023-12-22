@@ -1,0 +1,183 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API V1",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/v1/spreads": {
+      "get": {
+        "summary": "Retrieves all spreads",
+        "tags": [
+          "Spreads"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "spreads found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "spreads": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "market": {
+                        "type": "string"
+                      },
+                      "spread": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "market",
+                      "spread"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "spreads"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/spreads/{id}": {
+      "get": {
+        "summary": "Retrieves a spread",
+        "tags": [
+          "Spreads"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "spread found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "market": {
+                  "type": "string"
+                },
+                "spread": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "market",
+                "spread"
+              ]
+            }
+          },
+          "422": {
+            "description": "spread not found"
+          }
+        }
+      }
+    },
+    "/api/v1/spreads/{id}/create_alert": {
+      "post": {
+        "summary": "Creates a spread alert",
+        "tags": [
+          "Spreads"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "alert",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "target_spread": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "target_spread"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "alert created"
+          },
+          "422": {
+            "description": "spread not found"
+          }
+        }
+      }
+    },
+    "/api/v1/spreads/{id}/poll_alert": {
+      "get": {
+        "summary": "Polls a spread alert",
+        "tags": [
+          "Spreads"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "alert found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "alert_triggered": {
+                  "type": "boolean"
+                },
+                "current_spread": {
+                  "type": "number"
+                },
+                "target_spread": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "alert_triggered",
+                "current_spread",
+                "target_spread"
+              ]
+            }
+          },
+          "422": {
+            "description": "alert not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+  }
+}

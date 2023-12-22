@@ -107,6 +107,8 @@ GEM
     irb (1.11.0)
       rdoc
       reline (>= 0.3.8)
+    json-schema (4.1.1)
+      addressable (>= 2.8)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -199,6 +201,17 @@ GEM
       rspec-mocks (~> 3.12)
       rspec-support (~> 3.12)
     rspec-support (3.12.1)
+    rswag-api (2.13.0)
+      activesupport (>= 3.1, < 7.2)
+      railties (>= 3.1, < 7.2)
+    rswag-specs (2.13.0)
+      activesupport (>= 3.1, < 7.2)
+      json-schema (>= 2.2, < 5.0)
+      railties (>= 3.1, < 7.2)
+      rspec-core (>= 2.14)
+    rswag-ui (2.13.0)
+      actionpack (>= 3.1, < 7.2)
+      railties (>= 3.1, < 7.2)
     ruby2_keywords (0.0.5)
     stringio (3.1.0)
     thor (1.3.0)
@@ -225,6 +238,9 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 7.1.2)
   rspec-rails
+  rswag-api
+  rswag-specs
+  rswag-ui
   tzinfo-data
   webmock
 
