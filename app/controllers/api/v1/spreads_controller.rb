@@ -1,16 +1,28 @@
 require 'net/http'
-require 'json'
 
 class Api::V1::SpreadsController < ApplicationController
+  before_action :sanitize_params, only: [:show]
+
   def index
-    render json: calculate_spreads(get_active_markets)
+    @spreads = calculate_spreads(get_active_markets)
+    render json: { spreads: @spreads }
   end
 
   def show
-    render json: calculate_spread(params[:id])
+    @spread = calculate_spread(params[:id])
+    render json: @spread
   end
 
   private
+  
+  def sanitize_params
+    market = params[:id]
+    active_markets = get_active_markets
+    
+    unless active_markets.include?(market)
+      render json: { error: 'Invalid market' }, status: :unprocessable_entity
+    end
+  end
 
   def get_active_markets
     response = HTTParty.get('https://www.buda.com/api/v2/markets')
@@ -33,7 +45,6 @@ class Api::V1::SpreadsController < ApplicationController
 
   def calculate_spreads(markets)
     spreads = markets.map { |market| calculate_spread(market) }
-    {spreads: spreads}
   end
 end
 

@@ -4,8 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :spreads, only: [:index, :show]
     end
-  end
 
-  # Defines the root path route ("/")
-  # root _v1_spreads_path
+    root to: 'v1/spreads#index'
+  end
 end
