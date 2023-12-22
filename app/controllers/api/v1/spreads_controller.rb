@@ -1,7 +1,9 @@
 require 'net/http'
 
 class Api::V1::SpreadsController < ApplicationController
-  before_action :sanitize_params, only: [:show]
+  cattr_accessor :spread_alerts
+
+  before_action :sanitize_params_show, only: [:show]
 
   def index
     @spreads = calculate_spreads(get_active_markets)
@@ -13,9 +15,32 @@ class Api::V1::SpreadsController < ApplicationController
     render json: @spread
   end
 
+  def create_alert
+    market = params[:id]
+    target_spread = params[:target_spread]
+  
+    self.class.spread_alerts ||= {}
+    self.class.spread_alerts[market] = target_spread.to_f
+  
+    render json: { message: 'Spread alert created successfully', market: market, target_spread: target_spread }
+  end
+  
+  def poll_alert
+    market = params[:id]
+    current_spread = calculate_spread(params[:id])[:spread]
+  
+    target_spread = self.class.spread_alerts&.[](market)
+  
+    if target_spread
+      render json: { alert_triggered: current_spread > target_spread, current_spread: current_spread, target_spread: target_spread }
+    else
+      render json: { error: 'No spread alert found for the specified market' }, status: :not_found
+    end
+  end
+
   private
   
-  def sanitize_params
+  def sanitize_params_show
     market = params[:id]
     active_markets = get_active_markets
 
@@ -32,13 +57,13 @@ class Api::V1::SpreadsController < ApplicationController
   
   def get_ticker(market)
     response = HTTParty.get("https://www.buda.com/api/v2/markets/#{market}/ticker")
-    order_book = JSON.parse(response.body) #hash
+    ticker = JSON.parse(response.body) #hash
   end
 
   def calculate_spread(market)
-    order_book = get_ticker(market)
-    lower_ask = order_book['ticker']['min_ask'][0].to_f
-    higher_bid = order_book['ticker']['max_bid'][0].to_f
+    ticker = get_ticker(market)
+    lower_ask = ticker['ticker']['min_ask'].first.to_f
+    higher_bid = ticker['ticker']['max_bid'].first.to_f
     spread = lower_ask - higher_bid
     { market: market, spread: spread }
   end
