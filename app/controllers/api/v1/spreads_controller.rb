@@ -3,7 +3,7 @@ require 'net/http'
 class Api::V1::SpreadsController < ApplicationController
   cattr_accessor :spread_alerts
 
-  before_action :sanitize_params_show, only: [:show]
+  before_action :sanitize_params, only: [:show, :poll_alert, :create_alert]
 
   def index
     @spreads = calculate_spreads(get_active_markets)
@@ -40,7 +40,7 @@ class Api::V1::SpreadsController < ApplicationController
 
   private
   
-  def sanitize_params_show
+  def sanitize_params
     market = params[:id]
     active_markets = get_active_markets
 
