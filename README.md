@@ -16,7 +16,7 @@
   - [🛠 Built With ](#-built-with-)
     - [Tech Stack ](#tech-stack-)
     - [Key Features ](#key-features-)
-  - [🚀 Live Demo ](#-live-demo-)
+  <!-- - [🚀 Live Demo ](#-live-demo-) -->
   - [💻 Getting Started ](#-getting-started-)
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
@@ -68,12 +68,12 @@ Buda Spreads API. Powered by Ruby on Rails for a robust backend API, this app al
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+<!-- 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
 [You can see the Live Demo Here.](https://rentals-app-egry.onrender.com/) 💻📲
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 ## 💻 Getting Started <a name="getting-started"></a>
 
