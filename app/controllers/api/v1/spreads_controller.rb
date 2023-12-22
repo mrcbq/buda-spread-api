@@ -3,7 +3,7 @@ require 'json'
 
 class Api::V1::SpreadsController < ApplicationController
   def index
-    render json: calculate_spread(get_markets[1])
+    render json: calculate_spreads(get_markets)
   end
 
   private
@@ -28,7 +28,11 @@ class Api::V1::SpreadsController < ApplicationController
   end
 
   def calculate_spreads(markets)
-    
+    spreads = []
+    markets.each do |market|
+      spreads << calculate_spread(market)
+    end
+    {spreads: spreads}
   end
 end
 
