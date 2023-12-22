@@ -3,12 +3,16 @@ require 'json'
 
 class Api::V1::SpreadsController < ApplicationController
   def index
-    render json: calculate_spreads(get_markets)
+    render json: calculate_spreads(get_active_markets)
+  end
+
+  def show
+    render json: calculate_spread(params[:id])
   end
 
   private
 
-  def get_markets
+  def get_active_markets
     response = HTTParty.get('https://www.buda.com/api/v2/markets')
     markets = JSON.parse(response.body)['markets']
     markets.map { |market| market['id'] unless market['disabled'] }.compact
@@ -28,10 +32,7 @@ class Api::V1::SpreadsController < ApplicationController
   end
 
   def calculate_spreads(markets)
-    spreads = []
-    markets.each do |market|
-      spreads << calculate_spread(market)
-    end
+    spreads = markets.map { |market| calculate_spread(market) }
     {spreads: spreads}
   end
 end
