@@ -13,5 +13,5 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'v1/spreads#index'
+  root to: redirect('/api-docs')
 end
