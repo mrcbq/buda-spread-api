@@ -32,7 +32,9 @@ gem "bootsnap", require: false
 # use http party to fetch data
 gem "httparty", "~> 0.21.0"
 
-
+gem 'rswag-api'
+gem 'rswag-ui'
+gem 'rswag-specs'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -40,9 +42,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "webmock"
   # gems for generate the documentation
-  gem 'rswag-api'
-  gem 'rswag-ui'
-  gem 'rswag-specs'
 end
 
 group :development do
